@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'maven-publish'
 }
+apply plugin: 'maven-publish'
 
 android {
     namespace 'com.nabil.dhelper'
@@ -11,7 +12,6 @@ android {
     defaultConfig {
         minSdk 24
         targetSdk 33
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -22,10 +22,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
@@ -39,25 +41,20 @@ android {
 
 }
 
-afterEvaluate {
+dependencies {
+    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+}
+
+afterEvaluate{
     publishing {
         publications {
-            release(MavenPublication) {
+            maven(MavenPublication) {
                 from components.release
-                groupId 'com.nabil.dhelper'
-                artifactId 'DHelper'
-                version '1.0.0'
+                groupId = 'com.github.shabababalnabil'
+                artifactId = 'DHelper'
+                version = "1.0.0"
             }
         }
     }
 }
 
-dependencies {
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.8.0'
-    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-}
